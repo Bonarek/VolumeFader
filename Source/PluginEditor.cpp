@@ -27,6 +27,7 @@ VolumeFaderAudioProcessorEditor::VolumeFaderAudioProcessorEditor(VolumeFaderAudi
     Bypass.onClick = [this]
     {
         audioProcessor.Bypass = Bypass.getToggleState();
+
     };
     addAndMakeVisible(&midiVolume);
     addAndMakeVisible(&Bypass);
