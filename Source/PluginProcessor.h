@@ -18,7 +18,7 @@ class VolumeFaderAudioProcessor : public juce::AudioProcessor
 public:
     //Note on velocity
     float NoteOnVelocity;
-
+    bool Bypass = false;
     //==============================================================================
     VolumeFaderAudioProcessor();
     ~VolumeFaderAudioProcessor() override;

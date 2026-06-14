@@ -133,19 +133,22 @@ bool VolumeFaderAudioProcessor::isBusesLayoutSupported(const BusesLayout& layout
 void VolumeFaderAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
-    juce::MidiBuffer processMidi;
-    for (const auto metadata : midiMessages)
+    if (Bypass)
     {
-        auto message = metadata.getMessage();
-        const auto time = metadata.samplePosition;
-        if (message.isNoteOn())
+        juce::MidiBuffer processMidi;
+        for (const auto metadata : midiMessages)
         {
-            message = juce::MidiMessage::noteOn(message.getChannel(), message.getNoteNumber(), (juce::uint8)NoteOnVelocity);
+            auto message = metadata.getMessage();
+            const auto time = metadata.samplePosition;
+            if (message.isNoteOn())
+            {
+                message = juce::MidiMessage::noteOn(message.getChannel(), message.getNoteNumber(), (juce::uint8)NoteOnVelocity);
 
+            }
+            processMidi.addEvent(message, time);
         }
-        processMidi.addEvent(message, time);
+        midiMessages.swapWith(processMidi);
     }
-    midiMessages.swapWith(processMidi);
 }
 
 //==============================================================================
